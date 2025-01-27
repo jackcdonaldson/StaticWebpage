@@ -9,7 +9,7 @@
 <meta name="author" content="Jack Donaldson">
 <meta name="dcterms.date" content="2025-01-27">
 
-<title>Homework 0 Blog – Jack’s Radical and Awesome Website</title>
+<title>Homework 0 Blog: Palmer Penguins Analysis – Jack’s Radical and Awesome Website</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -152,7 +152,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Homework 0 Blog</h1>
+      <h1 class="title">Homework 0 Blog: Palmer Penguins Analysis</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">Homework</div>
               </div>
@@ -191,23 +191,171 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<div id="bae80024-e911-415a-b0fa-5e6fe89ff789" class="cell" data-execution_count="13">
+<section id="intro" class="level1">
+<h1>Intro</h1>
+<p>Hi everyone, and welcome to my first blog post! I’m so excited for you all to read along with me, and hopefully we all learn a little something about Python and data analysis as the quarter progresses.</p>
+<p>For this first project, we will be working with the Palmer Penguins dataset, and constructing a simple visualization. This popular set contains a lot of information on three variations of penguins: Adelie, Chinstrap, and Gentoo. I for one, am curious about how these three species stack up against each other physically. To see this, let’s construct a histogram to chart the distributions of how many penguins of each species fit into ‘bins’ of weight ranges.</p>
+<p>Thankfully, I have a good idea on how we can program this solution!</p>
+</section>
+<section id="reading-data-and-important-tools-in" class="level1">
+<h1>Reading Data and Important Tools In</h1>
+<p>To begin with, we’ll need to use the Pandas library to read in and polish up our data. After that, we’ll be using the express package from the plotly library, which is how we will plot out the pandas dataframe. Here we’re importing our necessary items, and then reading our data in through the read_csv command, passing in this publicly available url of the Palmer dataset. Let’s see what our data looks like with head.</p>
+<div id="bae80024-e911-415a-b0fa-5e6fe89ff789" class="cell" data-execution_count="81">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotly <span class="im">import</span> express <span class="im">as</span> px</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/pic16b-ucla/24W/main/datasets/palmer_penguins.csv"</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/pic16b-ucla/24W/main/datasets/palmer_penguins.csv"</span> <span class="co">#reading data</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>penguins.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="81">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">studyName</th>
+<th data-quarto-table-cell-role="th">Sample Number</th>
+<th data-quarto-table-cell-role="th">Species</th>
+<th data-quarto-table-cell-role="th">Region</th>
+<th data-quarto-table-cell-role="th">Island</th>
+<th data-quarto-table-cell-role="th">Stage</th>
+<th data-quarto-table-cell-role="th">Individual ID</th>
+<th data-quarto-table-cell-role="th">Clutch Completion</th>
+<th data-quarto-table-cell-role="th">Date Egg</th>
+<th data-quarto-table-cell-role="th">Culmen Length (mm)</th>
+<th data-quarto-table-cell-role="th">Culmen Depth (mm)</th>
+<th data-quarto-table-cell-role="th">Flipper Length (mm)</th>
+<th data-quarto-table-cell-role="th">Body Mass (g)</th>
+<th data-quarto-table-cell-role="th">Sex</th>
+<th data-quarto-table-cell-role="th">Delta 15 N (o/oo)</th>
+<th data-quarto-table-cell-role="th">Delta 13 C (o/oo)</th>
+<th data-quarto-table-cell-role="th">Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>PAL0708</td>
+<td>1</td>
+<td>Adelie Penguin (Pygoscelis adeliae)</td>
+<td>Anvers</td>
+<td>Torgersen</td>
+<td>Adult, 1 Egg Stage</td>
+<td>N1A1</td>
+<td>Yes</td>
+<td>11/11/07</td>
+<td>39.1</td>
+<td>18.7</td>
+<td>181.0</td>
+<td>3750.0</td>
+<td>MALE</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>Not enough blood for isotopes.</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>PAL0708</td>
+<td>2</td>
+<td>Adelie Penguin (Pygoscelis adeliae)</td>
+<td>Anvers</td>
+<td>Torgersen</td>
+<td>Adult, 1 Egg Stage</td>
+<td>N1A2</td>
+<td>Yes</td>
+<td>11/11/07</td>
+<td>39.5</td>
+<td>17.4</td>
+<td>186.0</td>
+<td>3800.0</td>
+<td>FEMALE</td>
+<td>8.94956</td>
+<td>-24.69454</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>PAL0708</td>
+<td>3</td>
+<td>Adelie Penguin (Pygoscelis adeliae)</td>
+<td>Anvers</td>
+<td>Torgersen</td>
+<td>Adult, 1 Egg Stage</td>
+<td>N2A1</td>
+<td>Yes</td>
+<td>11/16/07</td>
+<td>40.3</td>
+<td>18.0</td>
+<td>195.0</td>
+<td>3250.0</td>
+<td>FEMALE</td>
+<td>8.36821</td>
+<td>-25.33302</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>PAL0708</td>
+<td>4</td>
+<td>Adelie Penguin (Pygoscelis adeliae)</td>
+<td>Anvers</td>
+<td>Torgersen</td>
+<td>Adult, 1 Egg Stage</td>
+<td>N2A2</td>
+<td>Yes</td>
+<td>11/16/07</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>Adult not sampled.</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>PAL0708</td>
+<td>5</td>
+<td>Adelie Penguin (Pygoscelis adeliae)</td>
+<td>Anvers</td>
+<td>Torgersen</td>
+<td>Adult, 1 Egg Stage</td>
+<td>N3A1</td>
+<td>Yes</td>
+<td>11/16/07</td>
+<td>36.7</td>
+<td>19.3</td>
+<td>193.0</td>
+<td>3450.0</td>
+<td>FEMALE</td>
+<td>8.76651</td>
+<td>-25.32426</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+
 </div>
-<div id="a131fe7a-41f7-4f6e-91a5-2a6f6d82d965" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> penguins.dropna(subset <span class="op">=</span> [<span class="st">"Body Mass (g)"</span>, <span class="st">"Sex"</span>])</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>penguins[<span class="st">"Species"</span>] <span class="op">=</span> penguins[<span class="st">"Species"</span>].<span class="bu">str</span>.split().<span class="bu">str</span>.get(<span class="dv">0</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> penguins[penguins[<span class="st">"Sex"</span>] <span class="op">!=</span> <span class="st">"."</span>]</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> [<span class="st">"Species"</span>, <span class="st">"Island"</span>, <span class="st">"Sex"</span>, <span class="st">"Culmen Length (mm)"</span>, <span class="st">"Culmen Depth (mm)"</span>, <span class="st">"Flipper Length (mm)"</span>, <span class="st">"Body Mass (g)"</span>]</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> penguins[cols]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="470048c7-c650-4c5c-9b42-b2a5d87e0e5a" class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>penguins.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="25">
+</div>
+</section>
+<section id="cleaning-up-the-data" class="level1">
+<h1>Cleaning Up the Data</h1>
+<p>Now that the set is on our machine, we need to make sure it’s perfectly usable. For one, some values in the ‘body mass (g)’ column, are not in numerical format (see index entry 3). As such, we will purge them through the dropna() command.</p>
+<p>Since we are separating our data up by species type, we need to make sure that column is also perfectly usable. The entries in the species column are stated as “Adelie Penguin.” The fact they’re penguins is pretty redundant, so let’s only include the species name in that column. To do so, we’ll reassign that column by splitting up the string entry with str.split(), and then only grabbing the 0th index of the now 2 strings.</p>
+<p>We also are only using a few columns, so we might as well just throw out the excess. Let’s make a list of all of the columns we want (just species and mass), and then use that as a mask over our set.</p>
+<p>Just to make sure our data is working properly, let’s get the head of our modified set and ensure everything is in order.</p>
+<div id="a131fe7a-41f7-4f6e-91a5-2a6f6d82d965" class="cell" data-execution_count="93">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> penguins.dropna(subset <span class="op">=</span> [<span class="st">"Body Mass (g)"</span>]) <span class="co"># removing non-number entries</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>penguins[<span class="st">"Species"</span>] <span class="op">=</span> penguins[<span class="st">"Species"</span>].<span class="bu">str</span>.split().<span class="bu">str</span>.get(<span class="dv">0</span>) <span class="co"># splits species title, grabs first one</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> [<span class="st">"Species"</span>, <span class="st">"Body Mass (g)"</span>]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> penguins[cols]</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>penguins.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="93">
 <div>
 
 
@@ -216,11 +364,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
 <th data-quarto-table-cell-role="th">Species</th>
-<th data-quarto-table-cell-role="th">Island</th>
-<th data-quarto-table-cell-role="th">Sex</th>
-<th data-quarto-table-cell-role="th">Culmen Length (mm)</th>
-<th data-quarto-table-cell-role="th">Culmen Depth (mm)</th>
-<th data-quarto-table-cell-role="th">Flipper Length (mm)</th>
 <th data-quarto-table-cell-role="th">Body Mass (g)</th>
 </tr>
 </thead>
@@ -228,51 +371,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
 <td>Adelie</td>
-<td>Torgersen</td>
-<td>MALE</td>
-<td>39.1</td>
-<td>18.7</td>
-<td>181.0</td>
 <td>3750.0</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
 <td>Adelie</td>
-<td>Torgersen</td>
-<td>FEMALE</td>
-<td>39.5</td>
-<td>17.4</td>
-<td>186.0</td>
 <td>3800.0</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
 <td>Adelie</td>
-<td>Torgersen</td>
-<td>FEMALE</td>
-<td>40.3</td>
-<td>18.0</td>
-<td>195.0</td>
 <td>3250.0</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">4</td>
 <td>Adelie</td>
-<td>Torgersen</td>
-<td>FEMALE</td>
-<td>36.7</td>
-<td>19.3</td>
-<td>193.0</td>
 <td>3450.0</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">5</td>
 <td>Adelie</td>
-<td>Torgersen</td>
-<td>MALE</td>
-<td>39.3</td>
-<td>20.6</td>
-<td>190.0</td>
 <td>3650.0</td>
 </tr>
 </tbody>
@@ -281,26 +399,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="5e791d08-c2d2-4ad3-8052-d0926879aa1c" class="cell" data-execution_count="64">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://plotly.com/python-api-reference/generated/plotly.express.scatter.html</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.histogram(penguins, </span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                   x <span class="op">=</span> <span class="st">"Body Mass (g)"</span>, </span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                   color <span class="op">=</span> <span class="st">"Species"</span>,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                   opacity <span class="op">=</span> <span class="fl">0.5</span>, </span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                   nbins <span class="op">=</span> <span class="dv">30</span>, </span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                   barmode<span class="op">=</span><span class="st">'stack'</span>,</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                   width <span class="op">=</span> <span class="dv">600</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                   height <span class="op">=</span> <span class="dv">300</span>, title <span class="op">=</span> <span class="st">"Body Mass Distribution of Penguins by Species"</span>)</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># reduce whitespace</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>fig.update_layout(margin<span class="op">=</span>{<span class="st">"r"</span>:<span class="dv">0</span>,<span class="st">"t"</span>:<span class="dv">40</span>, <span class="st">"l"</span>:<span class="dv">0</span>,<span class="st">"b"</span>:<span class="dv">0</span>})</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># show the plot</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As an additional test, let’s show that every entry in the body mass column is now a number with the dtypes function.</p>
+<div id="470048c7-c650-4c5c-9b42-b2a5d87e0e5a" class="cell" data-execution_count="97">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>penguins[<span class="st">"Body Mass (g)"</span>].dtypes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="97">
+<pre><code>dtype('float64')</code></pre>
+</div>
+</div>
+</section>
+<section id="plotting-the-data" class="level1">
+<h1>Plotting the Data</h1>
+<p>Now that the data is usable, let’s construct our simple histogram. We’ll be using the histogram function from Plotly Express. Following along with the documentation, we can find which arguments we need to set. Using the penguin dataframe, we’re charting the Body Mass column as our x-axis. To differentiate between the types of penguins, we’ll assign the different Species values as different colors. For a better visual, we will set the opacity to 0.5, and split our mass ranges into 30 bins. One of the barmode settings is stack, which will make apparent how many of each species are in one mass bin. This will eliminate overlap. We need our title, and to set the dimensions of our figure.</p>
+<p>To clean up the chart one more time, we’re eliminating the margins everywhere but on the top (so the title isn’t cut off).</p>
+<p>Our chart is now ready, and we can see that gentoo penguins are a lot bigger than the other two species, while chinstrap and adelie penguins follow similar distributions.</p>
+<div id="5e791d08-c2d2-4ad3-8052-d0926879aa1c" class="cell" data-execution_count="104">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Documentation found on https://plotly.github.io/plotly.py-docs/generated/plotly.express.histogram.html</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.histogram(penguins, </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                   x <span class="op">=</span> <span class="st">"Body Mass (g)"</span>, </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                   color <span class="op">=</span> <span class="st">"Species"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                   opacity <span class="op">=</span> <span class="fl">0.5</span>, </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                   nbins <span class="op">=</span> <span class="dv">30</span>, </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                   barmode<span class="op">=</span><span class="st">'stack'</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                   width <span class="op">=</span> <span class="dv">600</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                   height <span class="op">=</span> <span class="dv">300</span>, title <span class="op">=</span> <span class="st">"Body Mass Distribution of Penguins by Species"</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># reduce whitespace</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>fig.update_layout(margin<span class="op">=</span>{<span class="st">"r"</span>:<span class="dv">0</span>,<span class="st">"t"</span>:<span class="dv">40</span>, <span class="st">"l"</span>:<span class="dv">0</span>,<span class="st">"b"</span>:<span class="dv">0</span>})</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># show the plot</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<div>                            <div id="b31891c5-6363-42e9-85a4-1dbd765d3d93" class="plotly-graph-div" style="height:300px; width:600px;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("b31891c5-6363-42e9-85a4-1dbd765d3d93")) {                    Plotly.newPlot(                        "b31891c5-6363-42e9-85a4-1dbd765d3d93",                        [{"alignmentgroup":"True","bingroup":"x","hovertemplate":"Species=Adelie\u003cbr\u003eBody Mass (g)=%{x}\u003cbr\u003ecount=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Adelie","marker":{"color":"#636efa","opacity":0.5,"pattern":{"shape":""}},"name":"Adelie","nbinsx":30,"offsetgroup":"Adelie","orientation":"v","showlegend":true,"x":[3750.0,3800.0,3250.0,3450.0,3650.0,3625.0,4675.0,3200.0,3800.0,4400.0,3700.0,3450.0,4500.0,3325.0,4200.0,3400.0,3600.0,3800.0,3950.0,3800.0,3800.0,3550.0,3200.0,3150.0,3950.0,3250.0,3900.0,3300.0,3900.0,3325.0,4150.0,3950.0,3550.0,3300.0,4650.0,3150.0,3900.0,3100.0,4400.0,3000.0,4600.0,3425.0,3450.0,4150.0,3500.0,4300.0,3450.0,4050.0,2900.0,3700.0,3550.0,3800.0,2850.0,3750.0,3150.0,4400.0,3600.0,4050.0,2850.0,3950.0,3350.0,4100.0,3050.0,4450.0,3600.0,3900.0,3550.0,4150.0,3700.0,4250.0,3700.0,3900.0,3550.0,4000.0,3200.0,4700.0,3800.0,4200.0,3350.0,3550.0,3800.0,3500.0,3950.0,3600.0,3550.0,4300.0,3400.0,4450.0,3300.0,4300.0,3700.0,4350.0,2900.0,4100.0,3725.0,4725.0,3075.0,4250.0,2925.0,3550.0,3750.0,3900.0,3175.0,4775.0,3825.0,4600.0,3200.0,4275.0,3900.0,4075.0,2900.0,3775.0,3350.0,3325.0,3150.0,3500.0,3450.0,3875.0,3050.0,4000.0,3275.0,4300.0,3050.0,4000.0,3325.0,3500.0,3500.0,4475.0,3425.0,3900.0,3175.0,3975.0,3400.0,4250.0,3400.0,3475.0,3050.0,3725.0,3000.0,3650.0,4250.0,3475.0,3450.0,3750.0,3700.0,4000.0],"xaxis":"x","yaxis":"y","type":"histogram"},{"alignmentgroup":"True","bingroup":"x","hovertemplate":"Species=Chinstrap\u003cbr\u003eBody Mass (g)=%{x}\u003cbr\u003ecount=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Chinstrap","marker":{"color":"#EF553B","opacity":0.5,"pattern":{"shape":""}},"name":"Chinstrap","nbinsx":30,"offsetgroup":"Chinstrap","orientation":"v","showlegend":true,"x":[3500.0,3900.0,3650.0,3525.0,3725.0,3950.0,3250.0,3750.0,4150.0,3700.0,3800.0,3775.0,3700.0,4050.0,3575.0,4050.0,3300.0,3700.0,3450.0,4400.0,3600.0,3400.0,2900.0,3800.0,3300.0,4150.0,3400.0,3800.0,3700.0,4550.0,3200.0,4300.0,3350.0,4100.0,3600.0,3900.0,3850.0,4800.0,2700.0,4500.0,3950.0,3650.0,3550.0,3500.0,3675.0,4450.0,3400.0,4300.0,3250.0,3675.0,3325.0,3950.0,3600.0,4050.0,3350.0,3450.0,3250.0,4050.0,3800.0,3525.0,3950.0,3650.0,3650.0,4000.0,3400.0,3775.0,4100.0,3775.0],"xaxis":"x","yaxis":"y","type":"histogram"},{"alignmentgroup":"True","bingroup":"x","hovertemplate":"Species=Gentoo\u003cbr\u003eBody Mass (g)=%{x}\u003cbr\u003ecount=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Gentoo","marker":{"color":"#00cc96","opacity":0.5,"pattern":{"shape":""}},"name":"Gentoo","nbinsx":30,"offsetgroup":"Gentoo","orientation":"v","showlegend":true,"x":[4500.0,5700.0,4450.0,5700.0,5400.0,4550.0,4800.0,5200.0,4400.0,5150.0,4650.0,5550.0,4650.0,5850.0,4200.0,5850.0,4150.0,6300.0,4800.0,5350.0,5700.0,5000.0,4400.0,5050.0,5000.0,5100.0,5650.0,4600.0,5550.0,5250.0,4700.0,5050.0,6050.0,5150.0,5400.0,4950.0,5250.0,4350.0,5350.0,3950.0,5700.0,4300.0,4750.0,5550.0,4900.0,4200.0,5400.0,5100.0,5300.0,4850.0,5300.0,4400.0,5000.0,4900.0,5050.0,4300.0,5000.0,4450.0,5550.0,4200.0,5300.0,4400.0,5650.0,4700.0,5700.0,5800.0,4700.0,5550.0,4750.0,5000.0,5100.0,5200.0,4700.0,5800.0,4600.0,6000.0,4750.0,5950.0,4625.0,5450.0,4725.0,5350.0,4750.0,5600.0,4600.0,5300.0,4875.0,5550.0,4950.0,5400.0,4750.0,5650.0,4850.0,5200.0,4925.0,4875.0,4625.0,5250.0,4850.0,5600.0,4975.0,5500.0,5500.0,4700.0,5500.0,4575.0,5500.0,5000.0,5950.0,4650.0,5500.0,4375.0,5850.0,6000.0,4925.0,4850.0,5750.0,5200.0,5400.0],"xaxis":"x","yaxis":"y","type":"histogram"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Body Mass (g)"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"count"}},"legend":{"title":{"text":"Species"},"tracegroupgap":0},"title":{"text":"Body Mass Distribution of Penguins by Species"},"barmode":"stack","height":300,"width":600,"margin":{"r":0,"t":40,"l":0,"b":0}},                        {"responsive": true}                    ).then(function(){
+<div>                            <div id="94dfea4c-84a2-4abf-ba7b-cd1eb8387f75" class="plotly-graph-div" style="height:300px; width:600px;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("94dfea4c-84a2-4abf-ba7b-cd1eb8387f75")) {                    Plotly.newPlot(                        "94dfea4c-84a2-4abf-ba7b-cd1eb8387f75",                        [{"alignmentgroup":"True","bingroup":"x","hovertemplate":"Species=Adelie\u003cbr\u003eBody Mass (g)=%{x}\u003cbr\u003ecount=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Adelie","marker":{"color":"#636efa","opacity":0.5,"pattern":{"shape":""}},"name":"Adelie","nbinsx":30,"offsetgroup":"Adelie","orientation":"v","showlegend":true,"x":[3750.0,3800.0,3250.0,3450.0,3650.0,3625.0,4675.0,3475.0,4250.0,3300.0,3700.0,3200.0,3800.0,4400.0,3700.0,3450.0,4500.0,3325.0,4200.0,3400.0,3600.0,3800.0,3950.0,3800.0,3800.0,3550.0,3200.0,3150.0,3950.0,3250.0,3900.0,3300.0,3900.0,3325.0,4150.0,3950.0,3550.0,3300.0,4650.0,3150.0,3900.0,3100.0,4400.0,3000.0,4600.0,3425.0,2975.0,3450.0,4150.0,3500.0,4300.0,3450.0,4050.0,2900.0,3700.0,3550.0,3800.0,2850.0,3750.0,3150.0,4400.0,3600.0,4050.0,2850.0,3950.0,3350.0,4100.0,3050.0,4450.0,3600.0,3900.0,3550.0,4150.0,3700.0,4250.0,3700.0,3900.0,3550.0,4000.0,3200.0,4700.0,3800.0,4200.0,3350.0,3550.0,3800.0,3500.0,3950.0,3600.0,3550.0,4300.0,3400.0,4450.0,3300.0,4300.0,3700.0,4350.0,2900.0,4100.0,3725.0,4725.0,3075.0,4250.0,2925.0,3550.0,3750.0,3900.0,3175.0,4775.0,3825.0,4600.0,3200.0,4275.0,3900.0,4075.0,2900.0,3775.0,3350.0,3325.0,3150.0,3500.0,3450.0,3875.0,3050.0,4000.0,3275.0,4300.0,3050.0,4000.0,3325.0,3500.0,3500.0,4475.0,3425.0,3900.0,3175.0,3975.0,3400.0,4250.0,3400.0,3475.0,3050.0,3725.0,3000.0,3650.0,4250.0,3475.0,3450.0,3750.0,3700.0,4000.0],"xaxis":"x","yaxis":"y","type":"histogram"},{"alignmentgroup":"True","bingroup":"x","hovertemplate":"Species=Chinstrap\u003cbr\u003eBody Mass (g)=%{x}\u003cbr\u003ecount=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Chinstrap","marker":{"color":"#EF553B","opacity":0.5,"pattern":{"shape":""}},"name":"Chinstrap","nbinsx":30,"offsetgroup":"Chinstrap","orientation":"v","showlegend":true,"x":[3500.0,3900.0,3650.0,3525.0,3725.0,3950.0,3250.0,3750.0,4150.0,3700.0,3800.0,3775.0,3700.0,4050.0,3575.0,4050.0,3300.0,3700.0,3450.0,4400.0,3600.0,3400.0,2900.0,3800.0,3300.0,4150.0,3400.0,3800.0,3700.0,4550.0,3200.0,4300.0,3350.0,4100.0,3600.0,3900.0,3850.0,4800.0,2700.0,4500.0,3950.0,3650.0,3550.0,3500.0,3675.0,4450.0,3400.0,4300.0,3250.0,3675.0,3325.0,3950.0,3600.0,4050.0,3350.0,3450.0,3250.0,4050.0,3800.0,3525.0,3950.0,3650.0,3650.0,4000.0,3400.0,3775.0,4100.0,3775.0],"xaxis":"x","yaxis":"y","type":"histogram"},{"alignmentgroup":"True","bingroup":"x","hovertemplate":"Species=Gentoo\u003cbr\u003eBody Mass (g)=%{x}\u003cbr\u003ecount=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Gentoo","marker":{"color":"#00cc96","opacity":0.5,"pattern":{"shape":""}},"name":"Gentoo","nbinsx":30,"offsetgroup":"Gentoo","orientation":"v","showlegend":true,"x":[4500.0,5700.0,4450.0,5700.0,5400.0,4550.0,4800.0,5200.0,4400.0,5150.0,4650.0,5550.0,4650.0,5850.0,4200.0,5850.0,4150.0,6300.0,4800.0,5350.0,5700.0,5000.0,4400.0,5050.0,5000.0,5100.0,4100.0,5650.0,4600.0,5550.0,5250.0,4700.0,5050.0,6050.0,5150.0,5400.0,4950.0,5250.0,4350.0,5350.0,3950.0,5700.0,4300.0,4750.0,5550.0,4900.0,4200.0,5400.0,5100.0,5300.0,4850.0,5300.0,4400.0,5000.0,4900.0,5050.0,4300.0,5000.0,4450.0,5550.0,4200.0,5300.0,4400.0,5650.0,4700.0,5700.0,4650.0,5800.0,4700.0,5550.0,4750.0,5000.0,5100.0,5200.0,4700.0,5800.0,4600.0,6000.0,4750.0,5950.0,4625.0,5450.0,4725.0,5350.0,4750.0,5600.0,4600.0,5300.0,4875.0,5550.0,4950.0,5400.0,4750.0,5650.0,4850.0,5200.0,4925.0,4875.0,4625.0,5250.0,4850.0,5600.0,4975.0,5500.0,4725.0,5500.0,4700.0,5500.0,4575.0,5500.0,5000.0,5950.0,4650.0,5500.0,4375.0,5850.0,4875.0,6000.0,4925.0,4850.0,5750.0,5200.0,5400.0],"xaxis":"x","yaxis":"y","type":"histogram"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"Body Mass (g)"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"count"}},"legend":{"title":{"text":"Species"},"tracegroupgap":0},"title":{"text":"Body Mass Distribution of Penguins by Species"},"barmode":"stack","height":300,"width":600,"margin":{"r":0,"t":40,"l":0,"b":0}},                        {"responsive": true}                    ).then(function(){
                             
-var gd = document.getElementById('b31891c5-6363-42e9-85a4-1dbd765d3d93');
+var gd = document.getElementById('94dfea4c-84a2-4abf-ba7b-cd1eb8387f75');
 var x = new MutationObserver(function (mutations, observer) {{
         var display = window.getComputedStyle(gd).display;
         if (!display || display === 'none') {{
@@ -325,8 +456,10 @@ if (outputEl) {{
                         })                };                });            </script>        </div>
 </div>
 </div>
+<p>Thank you for following along for this first blog post, and I look forward to seeing you again next time!</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
